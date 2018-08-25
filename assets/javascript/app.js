@@ -1,7 +1,15 @@
-//----------------------   CODE BEGINS HERE   ----------------------//
+//----------------------   DOCUMENT BEGINS HERE   ----------------------//
+// STRUCTURE OF THIS DOCUMENT:
+// GLOBAL VARIABLES DECLARATION
+// FUNCTION TO DISPLAY THE QUIZ 
+// FUNCTION TO EXTRACT USER'S ANSWERS AND MAKE COMPARISION
+// FUNCTION TO DISPLAY THE RESULT
+// EVENT HANDLER FOR THE START BUTTON
+// EVENT HANDLER FOR THE SUBMIT BUTTON
 
-//----------------------   GLOBAL VARIABLE DECLARATION   ----------------------//
-//1- Defining an array whose elements are objects. Each object represent a question, multiple choices, and the correct answer associated with the question!
+//----------------------   GLOBAL VARIABLES DECLARATION   ----------------------//
+// 1- Defining an array whose elements are objects. 
+// Each object represent a question, multiple choices, and the correct answer associated with the question!
 var qArr = [{
         q: "What is the capital of The United States of America?",
         choices: ["New York", "Washington", "Washington DC", "Chicago"],
@@ -35,13 +43,16 @@ var qArr = [{
 ]; // End of qArr
 // 2- Getting a reference to the main row
 var row = $(".row");
-// 3- A variable to question's number
+// 3- Variable to hold the number of the current question
 var qNum = 0;
 // 4- Creating sumbit button object 
 var submitBtn = $('<button type="button" class="btn" id="submit-btn">Sumbit</button>');
+// 5- Variables to count the nubmer of right and wrong answer
+var numOfCorrectAns = 0;
+// 6- Variables to count the nubmer of wrong answers
+var numOfWrongAns = 0;
 
-
-//----------------------   FUNCTION DEFINITION TO SHOW QUIZ   ----------------------//
+//----------------------   FUNCTION TO DISPLAY THE QUIZ   ----------------------//
 function displayQuiz() {
     // 1-2) Adding questions and choices 
     // Looping through qArr and adding questions and choices into the page 
@@ -65,47 +76,60 @@ function displayQuiz() {
         // Adding the <div> to the main row
         row.append(newDiv);
     }) // End of forEach() method
-
     // 2-2) Adding the sumbit button to the bottom of the page 
     row.append(submitBtn);
 } // End of displayQuiz() definition 
 
+//----------------------   FUNCTION TO EXTRACT USER'S ANSWERS AND MAKE COMPARISION   ----------------------//
+function retrieveAndCompare() {
+    // The number of current question sets back to 1
+    qNum = 1;
+    // Start looping back through the array of questions, comparing user's ansewr with the correnct answer
+    qArr.forEach(function (element) {
+        // Starting from top of the form, extracting user's answer from each question one bye one 
+        var userAns = $('input[name="' + qNum + '"]:checked').val();
+        // next question (making it read)y for the next loop)
+        qNum++;
+        // Having retrieved the user's answer, compare it against the correct answer right away
+        if (userAns === element.correctAns) {
+            numOfCorrectAns++;
+        }
+        if (userAns !== element.correctAns) {
+            numOfWrongAns++;
+        }
+    }); // End of forEach()
+} // End of function retrieveAndCompare()
 
-//----------------------   EVENT HANDLER FOR THE SUBMIT BUTTON   ----------------------//
+//----------------------   FUNCTION TO DISPLAY THE RESULT   ----------------------//
+function displayResult() {
+    // empty the row 
+    $(".row").empty();
+    // Adding to the row
+    row.append("<h3>The number of correct answers are: " + numOfCorrectAns + "</h3>");
+    row.append("<h3>The number of wrong answers are: " + numOfWrongAns + "</h3>");
+} // End of displayResult() function
 
-// Wrapping the event handlers inside ready() method to make sure it won't be exexuted unless the whole page is fully loaded
+// Wrapping both event handlers inside ready()
 $(document).ready(function () {
 
-    // Event handler for the start button 
+    //----------------------   EVENT HANDLER FOR THE START BUTTON   ----------------------//
+    // 1- Event handler for the start button, which basically calls the display quiz function
     $("#start-btn").on("click", function () {
-        // Displaying data 
+        // Display questions 
         $(".row").empty();
         displayQuiz();
-    }); // End of event handler
+        // Display the timer
 
-    // Event handler for submmit button 
+    }); // End of start button event handler
+
+    //----------------------   EVENT HANDLER FOR THE SUBMIT BUTTON   ----------------------//
+    // Event handler for the submmit button 
     submitBtn.on("click", function () {
-        console.log("test");
-        var numOfCorrectAns = 0;
-        var numOfWrongAns = 0;
-        qNum = 1;
-        qArr.forEach(function (element) {
-
-            var userAns = $('input[name="' + qNum + '"]:checked').val();
-
-            qNum++;
-            if (userAns === element.correctAns) {
-                numOfCorrectAns++;
-            }
-            if (userAns !== element.correctAns) {
-                numOfWrongAns++;
-            }
-
-        }); // End of forEach()
-        console.log("correct: " + numOfCorrectAns);
-        console.log("wrong: " + numOfWrongAns);
-
+        // Get the user's answer and compare it against the coorect anwer 
+        retrieveAndCompare();
+        // Display the result
+        displayResult();
     }); // End of button's event listener
 }); // End of document.ready()
 
-//----------------------   CODE ENDS HERE   ----------------------//
+//----------------------   DOCUMENT ENDS HERE   ----------------------//
