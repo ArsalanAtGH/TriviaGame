@@ -1,0 +1,31 @@
+body {
+    background: rgb(103, 174, 187);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 60px;
+    margin: 20px;
+    margin-bottom: 50px;
+    font-style: italic;
+}
+.timerDiv {
+    height: 20px;
+    margin: 50px;
+}
+.container {
+    width: 60%;
+    margin: auto;
+    text-align: center;
+}
+
+.btn {
+    font-size: 30px;
+    border-radius: 12px;
+    margin: 60px;
+}
+
+span {
+    background: darkorchid;
+}
