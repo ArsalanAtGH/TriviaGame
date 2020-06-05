@@ -1,2 +1,2 @@
 # TriviaGame
-jQuery-Timers Assignment 
+https://arsalan-sadri.github.io/05_TriviaGameTimedQuiz/ 
